@@ -30,3 +30,18 @@ print("MRR totale (tutti):", mrr_totale)
 attivi = df[df["churn_flag"] == False]
 mrr_attivo = attivi["mrr_amount"].sum()
 print("MRR attivo (solo attivi):", mrr_attivo)
+# ARR totale degli abbonamenti attivi
+arr_attivo = attivi["arr_amount"].sum()
+print("ARR attivo:", arr_attivo)
+
+# Verifica: ARR dovrebbe essere circa MRR x 12
+print("MRR attivo x 12:", mrr_attivo * 12)
+# MRR totale per piano (solo attivi)
+mrr_per_piano = attivi.groupby("plan_tier")["mrr_amount"].sum()
+print("MRR per piano:")
+print(mrr_per_piano)
+
+# Quanti clienti attivi per piano
+clienti_per_piano = attivi.groupby("plan_tier")["subscription_id"].count()
+print("Clienti attivi per piano:")
+print(clienti_per_piano)
