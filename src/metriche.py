@@ -2,6 +2,9 @@ import pandas as pd
 
 df = pd.read_csv("data/ravenstack_subscriptions.csv")
 
+df["start_date"] = pd.to_datetime(df["start_date"])
+df["end_date"] = pd.to_datetime(df["end_date"]) 
+
 # Quanti abbonamenti hanno abbandonato (churn)
 churn_totali = df["churn_flag"].sum()
 print("Abbonamenti in churn:", churn_totali)
@@ -53,3 +56,10 @@ print(df["is_trial"].value_counts())
 churn_trial = df.groupby("is_trial")["churn_flag"].mean() * 100
 print("Churn per trial:")
 print(churn_trial)
+# Durata degli abbonamenti terminati (in giorni)
+terminati = df[df["churn_flag"] == True].copy()
+terminati["durata_giorni"] = (terminati["end_date"] - terminati["start_date"]).dt.days
+
+# Durata media
+print("Durata media abbonamenti chiusi (giorni):")
+print(terminati["durata_giorni"].mean())
