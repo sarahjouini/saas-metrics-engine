@@ -45,3 +45,11 @@ print(mrr_per_piano)
 clienti_per_piano = attivi.groupby("plan_tier")["subscription_id"].count()
 print("Clienti attivi per piano:")
 print(clienti_per_piano)
+# Quanti abbonamenti vengono da trial
+print("Distribuzione trial:")
+print(df["is_trial"].value_counts())
+
+# Churn rate: trial vs non-trial
+churn_trial = df.groupby("is_trial")["churn_flag"].mean() * 100
+print("Churn per trial:")
+print(churn_trial)
